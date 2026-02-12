@@ -1,0 +1,5 @@
+.env
+node_modules/
+dist/
+daily-activity-report.html
+.DS_Store
