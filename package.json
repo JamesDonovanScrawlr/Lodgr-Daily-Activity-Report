@@ -4,7 +4,8 @@
   "description": "",
   "main": "generate-report.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "git pull --rebase origin main && node generate-report.js && git add feature-dates.json status-timestamps.json && git diff --staged --quiet && echo 'No snapshot changes' || (git commit -m 'Update snapshots [skip ci]' && git push)"
   },
   "keywords": [],
   "author": "",
