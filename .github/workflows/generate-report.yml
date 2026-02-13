@@ -2,7 +2,7 @@ name: Daily Activity Report
 
 on:
   schedule:
-    - cron: '50 14 * * 1-5' # 9:50am EST Mon-Fri (10:50am EDT during daylight saving)
+    - cron: '50 17 * * 1-5' # 9:50am PST Mon-Fri (10:50am PDT during daylight saving)
   workflow_dispatch: # allows manual trigger from GitHub
 
 permissions:

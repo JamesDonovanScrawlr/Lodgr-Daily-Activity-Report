@@ -8,7 +8,7 @@ const API_TOKEN = process.env.CLICKUP_API_TOKEN;
 const BASE_URL = 'https://api.clickup.com/api/v2';
 const SPACE_NAME = 'Tenant | Scrawlr Labs';
 const FOLDER_NAME = 'Lodgr';
-const TIMEZONE = 'America/New_York';
+const TIMEZONE = 'America/Los_Angeles';
 const SNAPSHOT_PATH = path.join(__dirname, 'feature-dates.json');
 const STATUS_SNAPSHOT_PATH = path.join(__dirname, 'status-timestamps.json');
 
