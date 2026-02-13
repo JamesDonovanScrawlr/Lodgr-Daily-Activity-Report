@@ -33,6 +33,12 @@ jobs:
         env:
           CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
 
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: report
+          path: daily-activity-report.html
+
       - name: Persist snapshots
         run: |
           git config user.name "github-actions[bot]"
@@ -48,12 +54,6 @@ jobs:
               sleep 2
             done
           fi
-
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: report
-          path: daily-activity-report.html
 
   deploy:
     needs: generate

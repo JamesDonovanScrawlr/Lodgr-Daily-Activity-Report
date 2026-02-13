@@ -604,7 +604,7 @@ function renderPriority(priority) {
 function renderTaskName(name, url, priority) {
   let html = '';
   if (url) {
-    html += `<a href="${escapeHtml(url)}"><strong>${escapeHtml(name)}</strong></a>`;
+    html += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"><strong>${escapeHtml(name)}</strong></a>`;
   } else {
     html += `<strong>${escapeHtml(name)}</strong>`;
   }
