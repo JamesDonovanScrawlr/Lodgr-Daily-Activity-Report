@@ -15,11 +15,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  generate-and-deploy:
+  generate:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -34,18 +31,39 @@ jobs:
         env:
           CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
 
-      - name: Prepare dist
-        run: |
-          mkdir -p dist
-          cp daily-activity-report.html dist/index.html
-
       - name: Persist snapshots
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add feature-dates.json status-timestamps.json
-          git diff --staged --quiet || git commit -m "Update snapshots [skip ci]"
-          git push
+          if git diff --staged --quiet; then
+            echo "No snapshot changes to commit"
+          else
+            git commit -m "Update snapshots [skip ci]"
+            git push
+          fi
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: report
+          path: daily-activity-report.html
+
+  deploy:
+    needs: generate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: report
+          path: dist
+
+      - name: Rename to index.html
+        run: mv dist/daily-activity-report.html dist/index.html
 
       - uses: actions/configure-pages@v5
 
