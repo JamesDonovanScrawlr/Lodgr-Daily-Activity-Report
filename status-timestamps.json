@@ -28,16 +28,16 @@
     "since": "2026-02-12T21:09:18.831Z"
   },
   "868he1qfq": {
-    "status": "in qa",
-    "since": "2026-02-17T18:37:52.455Z"
+    "status": "ready for deployment",
+    "since": "2026-02-18T18:33:14.287Z"
   },
   "868hbq7bq": {
     "status": "in review",
     "since": "2026-02-12T21:09:20.760Z"
   },
   "868h64j6g": {
-    "status": "in qa",
-    "since": "2026-02-17T18:37:53.103Z"
+    "status": "ready for deployment",
+    "since": "2026-02-18T18:33:14.914Z"
   },
   "868gvu4py": {
     "status": "in review",
@@ -58,5 +58,13 @@
   "868hfcuxn": {
     "status": "ready for deployment",
     "since": "2026-02-17T18:37:49.838Z"
+  },
+  "868heu7cq": {
+    "status": "ready for deployment",
+    "since": "2026-02-18T18:33:12.964Z"
+  },
+  "868he1qy4": {
+    "status": "ready for deployment",
+    "since": "2026-02-18T18:33:13.615Z"
   }
 }
