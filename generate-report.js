@@ -329,6 +329,9 @@ function saveStatusSnapshot(snapshot) {
   fs.renameSync(tmp, STATUS_SNAPSHOT_PATH);
 }
 
+// Shared map to store all detected status changes so they can be looked up by later functions
+const allStatusChanges = new Map();
+
 function detectStatusChange(task, statusSnapshot) {
   const now = new Date().toISOString();
   const currentStatus = task.status?.status || '';
@@ -348,9 +351,11 @@ function detectStatusChange(task, statusSnapshot) {
       })
     : null;
 
-  // Update snapshot to current status
-  statusSnapshot[task.id] = { status: currentStatus, since: now };
-  return { oldStatus: prev.status, newStatus: currentStatus, changeTime };
+  // Update snapshot to current status, preserving the previous status for cross-run lookups
+  statusSnapshot[task.id] = { status: currentStatus, since: now, previousStatus: prev.status };
+  const change = { oldStatus: prev.status, newStatus: currentStatus, changeTime };
+  allStatusChanges.set(task.id, change);
+  return change;
 }
 
 // ─── Report Building (v2) ────────────────────────────────────────────────────
@@ -371,14 +376,16 @@ async function buildCompletedTasks(allTasksByList, statusSnapshot, dateSnapshot)
 
   for (const { list, tasks } of allTasksByList) {
     if (EXCLUDED_LISTS.includes(list.name.toLowerCase())) continue;
+    if (isV15List(list)) continue;
     for (const task of tasks) {
-      if (!task.date_done) continue;
-      const doneTime = parseInt(task.date_done);
+      const closedOrDone = task.date_closed || task.date_done;
+      if (!closedOrDone) continue;
+      const doneTime = parseInt(closedOrDone);
       if (isNaN(doneTime) || doneTime < cutoff) continue;
 
       const statusChange = detectStatusChange(task, statusSnapshot);
       const startDate = task.start_date ? formatDate(task.start_date) : 'TBD';
-      const completedDate = formatDate(task.date_done);
+      const completedDate = formatDate(closedOrDone);
       const dateChanges = trackDateChanges(task.id, startDate, completedDate, dateSnapshot);
       const comments = await fetchTaskComments(task.id);
       const lastComment = getMostRecentMeaningfulComment(comments);
@@ -533,12 +540,11 @@ async function buildRecentlyCreatedTasks(allTasksByList) {
   return created;
 }
 
-function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot) {
+function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot, statusSnapshot) {
   const features = [];
 
   for (const { list, tasks } of allTasksByList) {
     if (!isV15List(list)) continue;
-    if (tasks.length === 0) continue;
 
     const detailed = detailedListMap.get(list.id);
     const content = detailed?.content || '';
@@ -558,6 +564,103 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot) {
     const dueDate = detailed?.due_date ? formatDate(detailed.due_date) : 'TBD';
     const dateChanges = trackDateChanges(`feature_${list.id}`, startDate, dueDate, dateSnapshot);
 
+    // Build milestone list for this feature (custom_item_id === 1)
+    const milestones = [];
+    const milestoneMap = new Map(); // milestone task id -> milestone object
+    for (const task of tasks) {
+      if (task.custom_item_id !== 1) continue;
+
+      const statusChange = detectStatusChange(task, statusSnapshot);
+      const taskStartDate = task.start_date ? formatDate(task.start_date) : 'TBD';
+      const taskDueDate = task.due_date ? formatDate(task.due_date) : 'TBD';
+      const taskDateChanges = trackDateChanges(task.id, taskStartDate, taskDueDate, dateSnapshot);
+
+      const milestone = {
+        id: task.id,
+        name: task.name,
+        url: task.url || null,
+        priority: task.priority || null,
+        initials: memberInitials(task),
+        status: task.status?.status || 'Unknown',
+        startDate: taskStartDate,
+        dueDate: taskDueDate,
+        previousStartDate: taskDateChanges.previousStartDate,
+        previousDueDate: taskDateChanges.previousDueDate,
+        statusChange,
+        recentChanges: [],
+      };
+      milestones.push(milestone);
+      milestoneMap.set(task.id, milestone);
+    }
+
+    // Collect non-milestone tasks with recent status changes, grouped by parent milestone
+    const fortyEightHoursAgo = Date.now() - 48 * 60 * 60 * 1000;
+    const excludedStatuses = new Set(['to do', 'selected for development', 'in planning', 'paused', 'blocked', 'abandoned']);
+    const otherChanges = [];
+    for (const task of tasks) {
+      if (task.custom_item_id === 1) continue;
+      const currentStatus = (task.status?.status || '').toLowerCase();
+      if (excludedStatuses.has(currentStatus)) continue;
+      const updatedAt = parseInt(task.date_updated);
+      if (!updatedAt || updatedAt < fortyEightHoursAgo) continue;
+
+      // Look up from shared map first (change detected by an earlier builder this run),
+      // then try detectStatusChange for tasks not yet processed,
+      // then check snapshot for changes detected in a prior run (previousStatus + recent since)
+      let statusChange = allStatusChanges.get(task.id) || detectStatusChange(task, statusSnapshot);
+      if (!statusChange) {
+        const snap = statusSnapshot[task.id];
+        if (snap) {
+          const sinceMs = new Date(snap.since).getTime();
+          if (sinceMs >= fortyEightHoursAgo) {
+            const changeTime = task.date_updated
+              ? new Date(parseInt(task.date_updated)).toLocaleString('en-US', {
+                  timeZone: TIMEZONE, month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true,
+                })
+              : null;
+            if (snap.previousStatus && snap.previousStatus !== snap.status) {
+              statusChange = { oldStatus: snap.previousStatus, newStatus: snap.status, changeTime };
+            } else {
+              // Task was recently seeded — show current status without old→new transition
+              statusChange = { oldStatus: null, newStatus: snap.status, changeTime };
+            }
+          }
+        }
+      }
+      if (!statusChange) continue;
+
+      const entry = {
+        name: task.name,
+        url: task.url || null,
+        statusChange,
+      };
+
+      const parentMilestone = task.parent ? milestoneMap.get(task.parent) : null;
+      if (parentMilestone) {
+        parentMilestone.recentChanges.push(entry);
+      } else {
+        otherChanges.push(entry);
+      }
+    }
+
+    // Add an "Other" bucket if there are ungrouped changes
+    if (otherChanges.length > 0) {
+      milestones.push({
+        id: null,
+        name: 'Other',
+        url: null,
+        priority: null,
+        initials: [],
+        status: '',
+        startDate: null,
+        dueDate: null,
+        previousStartDate: null,
+        previousDueDate: null,
+        statusChange: null,
+        recentChanges: otherChanges,
+      });
+    }
+
     features.push({
       name: stripV15Prefix(list.name),
       initials: [...allInitials],
@@ -569,6 +672,7 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot) {
       dueDate,
       previousStartDate: dateChanges.previousStartDate,
       previousDueDate: dateChanges.previousDueDate,
+      milestones,
     });
   }
 
@@ -593,11 +697,7 @@ function statusColor(status) {
   return '#888';
 }
 
-function renderPriority(priority) {
-  if (!priority || !priority.priority) return '';
-  const p = priority.priority.toLowerCase();
-  if (p === 'urgent') return ' <span style="font-size:11px;font-weight:bold;color:#c62828;">[Urgent Priority]</span>';
-  if (p === 'high') return ' <span style="font-size:11px;font-weight:bold;color:#e65100;">[High Priority]</span>';
+function renderPriority() {
   return '';
 }
 
@@ -711,11 +811,7 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
   } else {
     for (const task of completedTasks) {
       const initials = task.initials.length > 0 ? ` (${task.initials.join(', ')})` : '';
-      html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | ${escapeHtml(task.listName)} | Start: ${renderDateWithChange(task.startDate, task.previousStartDate)} | Completed: ${escapeHtml(task.completedDate)}</div>\n`;
-      html += renderStatusChange(task.statusChange);
-      if (task.note) {
-        html += `  <div class="note">Notes: ${escapeHtml(truncate(task.note, 300))}</div>\n`;
-      }
+      html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | Completed: ${escapeHtml(task.completedDate)}</div>\n`;
     }
   }
 
@@ -771,10 +867,34 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
   } else {
     for (const feature of featureUpdates) {
       const initials = feature.initials.length > 0 ? ` (${feature.initials.join(', ')})` : '';
-      html += `  <div style="font-size:13px;padding:4px 0;"><strong>${escapeHtml(feature.name)}</strong>${escapeHtml(initials)} | Start: ${renderDateWithChange(feature.startDate, feature.previousStartDate)} | Due: ${renderDueDateWithChange(feature.dueDate, feature.previousDueDate, feature.status)}</div>\n`;
+      const hasStart = feature.startDate && feature.startDate !== 'TBD';
+      const hasDue = feature.dueDate && feature.dueDate !== 'TBD';
+      let dateParts = '';
+      if (hasStart || hasDue) {
+        const segments = [];
+        if (hasStart) segments.push(`Start: ${renderDateWithChange(feature.startDate, feature.previousStartDate)}`);
+        if (hasDue) segments.push(`Due: ${renderDueDateWithChange(feature.dueDate, feature.previousDueDate, feature.status)}`);
+        dateParts = ' | ' + segments.join(' | ');
+      }
+      html += `  <div style="font-size:13px;padding:4px 0;"><strong>${escapeHtml(feature.name)}</strong>${escapeHtml(initials)}${dateParts}</div>\n`;
       html += `  <div style="font-size:11px;color:#555;padding:1px 8px;">Status: ${escapeHtml(feature.status)}</div>\n`;
-      html += `  <div style="font-size:11px;color:#555;padding:1px 8px;">Original Sizing: ${escapeHtml(feature.originalSizing)}</div>\n`;
-      html += `  <div style="font-size:11px;color:#555;padding:1px 8px;">Sizing After Technical Planning: ${escapeHtml(feature.sizingAfterPlanning)}</div>\n`;
+
+      // Render milestones that have recent task status changes
+      for (const milestone of feature.milestones) {
+        if (milestone.recentChanges.length === 0) continue;
+        html += `  <div style="font-size:12px;font-weight:bold;color:#444;padding:3px 16px 1px;">${escapeHtml(milestone.name)}</div>\n`;
+        for (const change of milestone.recentChanges) {
+          const taskName = change.url
+            ? `<a href="${escapeHtml(change.url)}" target="_blank" rel="noopener noreferrer"><strong>${escapeHtml(change.name)}</strong></a>`
+            : `<strong>${escapeHtml(change.name)}</strong>`;
+          const timeStr = change.statusChange.changeTime ? ` (${escapeHtml(change.statusChange.changeTime)})` : '';
+          const statusText = change.statusChange.oldStatus
+            ? `${renderStatus(change.statusChange.oldStatus)} &rarr; ${renderStatus(change.statusChange.newStatus)}`
+            : renderStatus(change.statusChange.newStatus);
+          html += `  <div style="font-size:11px;color:#555;padding:1px 24px;">${taskName} | Status: ${statusText}${timeStr}</div>\n`;
+        }
+      }
+
       if (feature.dailyReportNote) {
         html += `  <div class="note">Notes: ${escapeHtml(feature.dailyReportNote)}</div>\n`;
       }
@@ -830,7 +950,7 @@ async function main() {
   }
 
   const recentlyCreated = await buildRecentlyCreatedTasks(allTasksByList);
-  const featureUpdates = buildFeatureUpdates(allTasksByList, detailedListMap, snapshot);
+  const featureUpdates = buildFeatureUpdates(allTasksByList, detailedListMap, snapshot, statusSnapshot);
 
   saveDateSnapshot(snapshot);
   saveStatusSnapshot(statusSnapshot);
