@@ -24,8 +24,8 @@
     "since": "2026-02-16T18:23:45.679Z"
   },
   "868h65m1a": {
-    "status": "in review",
-    "since": "2026-02-19T18:35:11.580Z"
+    "status": "complete",
+    "since": "2026-02-20T18:26:34.446Z"
   },
   "868he1qfq": {
     "status": "ready for deployment",
@@ -40,8 +40,8 @@
     "since": "2026-02-18T18:33:14.914Z"
   },
   "868gvu4py": {
-    "status": "in review",
-    "since": "2026-02-12T21:09:22.061Z"
+    "status": "in qa",
+    "since": "2026-02-20T18:26:40.982Z"
   },
   "868h0uc24": {
     "status": "ready for deployment",
@@ -66,5 +66,33 @@
   "868he1qy4": {
     "status": "ready for deployment",
     "since": "2026-02-18T18:33:13.615Z"
+  },
+  "868hhf1cc": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:35.163Z"
+  },
+  "868hfx05y": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:35.825Z"
+  },
+  "868hfx04x": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:36.811Z"
+  },
+  "868hfkjwn": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:37.085Z"
+  },
+  "868hfcp3j": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:37.968Z"
+  },
+  "868hfcnud": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:38.481Z"
+  },
+  "868heue3c": {
+    "status": "ready for deployment",
+    "since": "2026-02-20T18:26:39.084Z"
   }
 }
