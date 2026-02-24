@@ -155,6 +155,7 @@ async function fetchTaskComments(taskId) {
   }
 }
 
+
 async function fetchBulkTimeInStatus(taskIds) {
   if (taskIds.length === 0) return {};
   const result = {};
@@ -194,6 +195,17 @@ function formatReportDate() {
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+function getWorkdayCutoff(defaultHours = 24) {
+  const dayOfWeek = new Date().toLocaleDateString('en-US', { timeZone: TIMEZONE, weekday: 'long' });
+  const hoursBack = dayOfWeek === 'Monday' ? 72 : defaultHours;
+  return Date.now() - hoursBack * 60 * 60 * 1000;
+}
+
+function getActivityWindowLabel() {
+  const dayOfWeek = new Date().toLocaleDateString('en-US', { timeZone: TIMEZONE, weekday: 'long' });
+  return dayOfWeek === 'Monday' ? 'since Friday' : 'in the last 24 hours';
 }
 
 function escapeHtml(str) {
@@ -267,35 +279,43 @@ function renderDueDate(dueDateStr, status) {
   return escapeHtml(dueDateStr);
 }
 
-function renderDateWithChange(currentDate, previousDate) {
-  if (previousDate && previousDate !== currentDate && previousDate !== 'TBD') {
-    return `<span style="text-decoration:line-through;color:#999;">${escapeHtml(previousDate)}</span> <strong>${escapeHtml(currentDate)}</strong>`;
-  }
-  return escapeHtml(currentDate);
+function renderDateWithChange(currentDate, history) {
+  if (!history || history.length === 0) return escapeHtml(currentDate);
+  const struck = history.map(d => `<span style="text-decoration:line-through;color:#999;">${escapeHtml(d)}</span>`).join(' ');
+  return `${struck} <strong>${escapeHtml(currentDate)}</strong>`;
 }
 
-function renderDueDateWithChange(currentDate, previousDate, status) {
-  if (previousDate && previousDate !== currentDate && previousDate !== 'TBD') {
-    const overdue = isOverdue(currentDate, status);
-    const style = overdue ? ' style="color:#b71c1c;font-weight:bold;"' : '';
-    return `<span style="text-decoration:line-through;color:#999;">${escapeHtml(previousDate)}</span> <strong${style}>${escapeHtml(currentDate)}</strong>`;
-  }
-  return renderDueDate(currentDate, status);
+function renderDueDateWithChange(currentDate, history, status) {
+  if (!history || history.length === 0) return renderDueDate(currentDate, status);
+  const struck = history.map(d => `<span style="text-decoration:line-through;color:#999;">${escapeHtml(d)}</span>`).join(' ');
+  const overdue = isOverdue(currentDate, status);
+  const style = overdue ? ' style="color:#b71c1c;font-weight:bold;"' : '';
+  return `${struck} <strong${style}>${escapeHtml(currentDate)}</strong>`;
 }
 
 function trackDateChanges(taskId, currentStartDate, currentDueDate, dateSnapshot) {
   const prev = dateSnapshot[taskId] || {};
   const prevStartDate = prev.startDate || null;
   const prevDueDate = prev.dueDate || null;
+  const startHistory = prev.startDateHistory || [];
+  const dueHistory = prev.dueDateHistory || [];
 
   const startChanged = prevStartDate && prevStartDate !== currentStartDate && prevStartDate !== 'TBD';
   const dueChanged = prevDueDate && prevDueDate !== currentDueDate && prevDueDate !== 'TBD';
 
-  dateSnapshot[taskId] = { startDate: currentStartDate, dueDate: currentDueDate };
+  const newStartHistory = startChanged ? [...startHistory, prevStartDate] : startHistory;
+  const newDueHistory = dueChanged ? [...dueHistory, prevDueDate] : dueHistory;
+
+  dateSnapshot[taskId] = {
+    startDate: currentStartDate,
+    dueDate: currentDueDate,
+    startDateHistory: newStartHistory,
+    dueDateHistory: newDueHistory,
+  };
 
   return {
-    previousStartDate: startChanged ? prevStartDate : null,
-    previousDueDate: dueChanged ? prevDueDate : null,
+    startDateHistory: newStartHistory,
+    dueDateHistory: newDueHistory,
   };
 }
 
@@ -371,7 +391,7 @@ function memberInitials(task) {
 const EXCLUDED_LISTS = ['graveyard'];
 
 async function buildCompletedTasks(allTasksByList, statusSnapshot, dateSnapshot) {
-  const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+  const cutoff = getWorkdayCutoff();
   const completed = [];
 
   for (const { list, tasks } of allTasksByList) {
@@ -389,6 +409,7 @@ async function buildCompletedTasks(allTasksByList, statusSnapshot, dateSnapshot)
       const dateChanges = trackDateChanges(task.id, startDate, completedDate, dateSnapshot);
       const comments = await fetchTaskComments(task.id);
       const lastComment = getMostRecentMeaningfulComment(comments);
+      const startDateHistory = dateChanges.startDateHistory;
 
       completed.push({
         id: task.id,
@@ -399,7 +420,7 @@ async function buildCompletedTasks(allTasksByList, statusSnapshot, dateSnapshot)
         listName: list.name,
         startDate,
         completedDate,
-        previousStartDate: dateChanges.previousStartDate,
+        startDateHistory,
         statusChange,
         note: lastComment,
       });
@@ -436,6 +457,8 @@ async function buildBlockedTasks(allTasksByList, statusSnapshot, dateSnapshot) {
       const dateChanges = trackDateChanges(task.id, startDate, dueDate, dateSnapshot);
       const comments = await fetchTaskComments(task.id);
       const lastComment = getMostRecentMeaningfulComment(comments);
+      const startDateHistory = dateChanges.startDateHistory;
+      const dueDateHistory = dateChanges.dueDateHistory;
 
       blocked.push({
         name: task.name,
@@ -445,8 +468,8 @@ async function buildBlockedTasks(allTasksByList, statusSnapshot, dateSnapshot) {
         listName: list.name,
         startDate,
         dueDate,
-        previousStartDate: dateChanges.previousStartDate,
-        previousDueDate: dateChanges.previousDueDate,
+        startDateHistory,
+        dueDateHistory,
         statusChange,
         note: lastComment,
       });
@@ -481,6 +504,8 @@ async function buildTaskUpdates(allTasksByList, statusSnapshot, dateSnapshot, co
       const dateChanges = trackDateChanges(task.id, startDate, dueDate, dateSnapshot);
       const comments = await fetchTaskComments(task.id);
       const lastComment = getMostRecentMeaningfulComment(comments);
+      const startDateHistory = dateChanges.startDateHistory;
+      const dueDateHistory = dateChanges.dueDateHistory;
 
       updates.push({
         id: task.id,
@@ -492,8 +517,8 @@ async function buildTaskUpdates(allTasksByList, statusSnapshot, dateSnapshot, co
         listName: entry.list.name,
         startDate,
         dueDate,
-        previousStartDate: dateChanges.previousStartDate,
-        previousDueDate: dateChanges.previousDueDate,
+        startDateHistory,
+        dueDateHistory,
         statusChange,
         note: lastComment,
         timeInStatus: null,
@@ -508,7 +533,7 @@ async function buildTaskUpdates(allTasksByList, statusSnapshot, dateSnapshot, co
 const RECENTLY_CREATED_LISTS = ['Priority', 'QA/Usability', 'Fast-follow'];
 
 async function buildRecentlyCreatedTasks(allTasksByList) {
-  const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+  const cutoff = getWorkdayCutoff();
   const created = [];
 
   for (const listName of RECENTLY_CREATED_LISTS) {
@@ -584,8 +609,8 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot, stat
         status: task.status?.status || 'Unknown',
         startDate: taskStartDate,
         dueDate: taskDueDate,
-        previousStartDate: taskDateChanges.previousStartDate,
-        previousDueDate: taskDateChanges.previousDueDate,
+        startDateHistory: taskDateChanges.previousStartDate ? [taskDateChanges.previousStartDate] : [],
+        dueDateHistory: taskDateChanges.previousDueDate ? [taskDateChanges.previousDueDate] : [],
         statusChange,
         recentChanges: [],
       };
@@ -594,7 +619,7 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot, stat
     }
 
     // Collect non-milestone tasks with recent status changes, grouped by parent milestone
-    const fortyEightHoursAgo = Date.now() - 48 * 60 * 60 * 1000;
+    const fortyEightHoursAgo = getWorkdayCutoff(48);
     const excludedStatuses = new Set(['to do', 'selected for development', 'in planning', 'paused', 'blocked', 'abandoned']);
     const otherChanges = [];
     for (const task of tasks) {
@@ -670,8 +695,8 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot, stat
       dailyReportNote: dailyReportNote || '',
       startDate,
       dueDate,
-      previousStartDate: dateChanges.previousStartDate,
-      previousDueDate: dateChanges.previousDueDate,
+      startDateHistory: dateChanges.previousStartDate ? [dateChanges.previousStartDate] : [],
+      dueDateHistory: dateChanges.previousDueDate ? [dateChanges.previousDueDate] : [],
       milestones,
     });
   }
@@ -746,8 +771,7 @@ function renderStatusWithDuration(status, durationMs) {
 
 function renderStatusChange(statusChange) {
   if (!statusChange) return '';
-  const timeStr = statusChange.changeTime ? ` (${escapeHtml(statusChange.changeTime)})` : '';
-  return `  <div style="font-size:11px;color:#555;padding:1px 8px;">Status Change: ${renderStatus(statusChange.oldStatus)} &rarr; ${renderStatus(statusChange.newStatus)}${timeStr}</div>\n`;
+  return `  <div style="font-size:11px;color:#555;padding:1px 8px;">Status Change: ${renderStatus(statusChange.oldStatus)} &rarr; ${renderStatus(statusChange.newStatus)}</div>\n`;
 }
 
 // ─── HTML Generation (v2) ────────────────────────────────────────────────────
@@ -807,11 +831,14 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
 `;
 
   if (completedTasks.length === 0) {
-    html += `  <div style="font-size:13px;color:#888;">No tasks completed in the last 24 hours.</div>\n`;
+    html += `  <div style="font-size:13px;color:#888;">No tasks completed ${getActivityWindowLabel()}.</div>\n`;
   } else {
     for (const task of completedTasks) {
       const initials = task.initials.length > 0 ? ` (${task.initials.join(', ')})` : '';
       html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | Completed: ${escapeHtml(task.completedDate)}</div>\n`;
+      if (task.note) {
+        html += `  <div class="note">Notes: ${escapeHtml(truncate(task.note, 300))}</div>\n`;
+      }
     }
   }
 
@@ -822,7 +849,7 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
   } else {
     for (const task of blockedTasks) {
       const initials = task.initials.length > 0 ? ` (${task.initials.join(', ')})` : '';
-      html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | ${escapeHtml(task.listName)} | Start: ${renderDateWithChange(task.startDate, task.previousStartDate)} | Due: ${renderDueDateWithChange(task.dueDate, task.previousDueDate, 'blocked')}</div>\n`;
+      html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | ${escapeHtml(task.listName)} | Start: ${renderDateWithChange(task.startDate, task.startDateHistory)} | Due: ${renderDueDateWithChange(task.dueDate, task.dueDateHistory, 'blocked')}</div>\n`;
       html += renderStatusChange(task.statusChange);
       if (task.note) {
         html += `  <div class="note">Notes: ${escapeHtml(truncate(task.note, 300))}</div>\n`;
@@ -838,7 +865,7 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
     for (const task of taskUpdates) {
       const initials = task.initials.length > 0 ? ` (${task.initials.join(', ')})` : '';
       const statusHtml = task.timeInStatus != null ? renderStatusWithDuration(task.status, task.timeInStatus) : renderStatus(task.status);
-      html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | ${statusHtml} | ${escapeHtml(task.listName)} | Start: ${renderDateWithChange(task.startDate, task.previousStartDate)} | Due: ${renderDueDateWithChange(task.dueDate, task.previousDueDate, task.status)}</div>\n`;
+      html += `  <div style="font-size:13px;padding:4px 0;">${renderTaskName(task.name, task.url, task.priority)}${escapeHtml(initials)} | ${statusHtml} | ${escapeHtml(task.listName)} | Start: ${renderDateWithChange(task.startDate, task.startDateHistory)} | Due: ${renderDueDateWithChange(task.dueDate, task.dueDateHistory, task.status)}</div>\n`;
       html += renderStatusChange(task.statusChange);
       if (task.note) {
         html += `  <div class="note">Notes: ${escapeHtml(truncate(task.note, 300))}</div>\n`;
@@ -849,7 +876,7 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
   html += `\n  <div class="section-title">Recently Created Tasks</div>\n`;
 
   if (recentlyCreated.length === 0) {
-    html += `  <div style="font-size:13px;color:#888;">No tasks created in the last 24 hours.</div>\n`;
+    html += `  <div style="font-size:13px;color:#888;">No tasks created ${getActivityWindowLabel()}.</div>\n`;
   } else {
     for (const task of recentlyCreated) {
       const initials = task.initials.length > 0 ? ` (${task.initials.join(', ')})` : '';
@@ -872,8 +899,8 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
       let dateParts = '';
       if (hasStart || hasDue) {
         const segments = [];
-        if (hasStart) segments.push(`Start: ${renderDateWithChange(feature.startDate, feature.previousStartDate)}`);
-        if (hasDue) segments.push(`Due: ${renderDueDateWithChange(feature.dueDate, feature.previousDueDate, feature.status)}`);
+        if (hasStart) segments.push(`Start: ${renderDateWithChange(feature.startDate, feature.startDateHistory)}`);
+        if (hasDue) segments.push(`Due: ${renderDueDateWithChange(feature.dueDate, feature.dueDateHistory, feature.status)}`);
         dateParts = ' | ' + segments.join(' | ');
       }
       html += `  <div style="font-size:13px;padding:4px 0;"><strong>${escapeHtml(feature.name)}</strong>${escapeHtml(initials)}${dateParts}</div>\n`;
@@ -887,11 +914,10 @@ function generateHTML(completedTasks, blockedTasks, taskUpdates, recentlyCreated
           const taskName = change.url
             ? `<a href="${escapeHtml(change.url)}" target="_blank" rel="noopener noreferrer"><strong>${escapeHtml(change.name)}</strong></a>`
             : `<strong>${escapeHtml(change.name)}</strong>`;
-          const timeStr = change.statusChange.changeTime ? ` (${escapeHtml(change.statusChange.changeTime)})` : '';
           const statusText = change.statusChange.oldStatus
             ? `${renderStatus(change.statusChange.oldStatus)} &rarr; ${renderStatus(change.statusChange.newStatus)}`
             : renderStatus(change.statusChange.newStatus);
-          html += `  <div style="font-size:11px;color:#555;padding:1px 24px;">${taskName} | Status: ${statusText}${timeStr}</div>\n`;
+          html += `  <div style="font-size:11px;color:#555;padding:1px 24px;">${taskName} | Status: ${statusText}</div>\n`;
         }
       }
 
