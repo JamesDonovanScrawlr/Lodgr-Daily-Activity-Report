@@ -609,8 +609,8 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot, stat
         status: task.status?.status || 'Unknown',
         startDate: taskStartDate,
         dueDate: taskDueDate,
-        startDateHistory: taskDateChanges.previousStartDate ? [taskDateChanges.previousStartDate] : [],
-        dueDateHistory: taskDateChanges.previousDueDate ? [taskDateChanges.previousDueDate] : [],
+        startDateHistory: taskDateChanges.startDateHistory,
+        dueDateHistory: taskDateChanges.dueDateHistory,
         statusChange,
         recentChanges: [],
       };
@@ -695,8 +695,8 @@ function buildFeatureUpdates(allTasksByList, detailedListMap, dateSnapshot, stat
       dailyReportNote: dailyReportNote || '',
       startDate,
       dueDate,
-      startDateHistory: dateChanges.previousStartDate ? [dateChanges.previousStartDate] : [],
-      dueDateHistory: dateChanges.previousDueDate ? [dateChanges.previousDueDate] : [],
+      startDateHistory: dateChanges.startDateHistory,
+      dueDateHistory: dateChanges.dueDateHistory,
       milestones,
     });
   }
