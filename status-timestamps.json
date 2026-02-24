@@ -144,8 +144,9 @@
     "since": "2026-02-24T17:54:40.838Z"
   },
   "868hhpxwr": {
-    "status": "in qa",
-    "since": "2026-02-24T17:54:40.838Z"
+    "status": "not approved",
+    "since": "2026-02-24T18:07:55.015Z",
+    "previousStatus": "in qa"
   },
   "868hfx1q6": {
     "status": "in progress",
