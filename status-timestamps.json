@@ -132,8 +132,9 @@
     "since": "2026-02-24T17:54:40.836Z"
   },
   "868hfanyc": {
-    "status": "in qa",
-    "since": "2026-02-24T17:54:40.836Z"
+    "status": "ready for deployment",
+    "since": "2026-02-24T18:40:28.431Z",
+    "previousStatus": "in qa"
   },
   "868hm57ak": {
     "status": "ready for deployment",
@@ -144,9 +145,9 @@
     "since": "2026-02-24T17:54:40.838Z"
   },
   "868hhpxwr": {
-    "status": "not approved",
-    "since": "2026-02-24T18:07:55.015Z",
-    "previousStatus": "in qa"
+    "status": "ready for deployment",
+    "since": "2026-02-24T18:40:28.432Z",
+    "previousStatus": "not approved"
   },
   "868hfx1q6": {
     "status": "in progress",
