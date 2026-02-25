@@ -273,5 +273,9 @@
   "868hkhz4x": {
     "status": "in qa",
     "since": "2026-02-25T17:54:55.690Z"
+  },
+  "868hmrdgw": {
+    "status": "ready for deployment",
+    "since": "2026-02-25T18:43:53.124Z"
   }
 }
