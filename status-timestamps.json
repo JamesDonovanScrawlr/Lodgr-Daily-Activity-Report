@@ -154,8 +154,9 @@
     "previousStatus": "ready for deployment"
   },
   "868hfx1q6": {
-    "status": "in progress",
-    "since": "2026-02-24T17:54:40.838Z"
+    "status": "in review",
+    "since": "2026-02-26T17:40:29.768Z",
+    "previousStatus": "in progress"
   },
   "868hfx03b": {
     "status": "complete",
@@ -208,8 +209,9 @@
     "since": "2026-02-24T17:54:40.841Z"
   },
   "868hevduf": {
-    "status": "in planning",
-    "since": "2026-02-24T17:54:40.842Z"
+    "status": "selected for development",
+    "since": "2026-02-26T17:40:29.772Z",
+    "previousStatus": "in planning"
   },
   "868hevc3f": {
     "status": "in planning",
@@ -239,12 +241,14 @@
     "since": "2026-02-24T17:54:40.844Z"
   },
   "868h7cefr": {
-    "status": "in progress",
-    "since": "2026-02-25T17:54:53.020Z"
+    "status": "complete",
+    "since": "2026-02-26T17:40:25.239Z",
+    "previousStatus": "in progress"
   },
   "868h6x9ff": {
-    "status": "in progress",
-    "since": "2026-02-25T17:54:53.645Z"
+    "status": "complete",
+    "since": "2026-02-26T17:40:25.872Z",
+    "previousStatus": "in progress"
   },
   "868hfcv2a": {
     "status": "in review",
@@ -277,5 +281,9 @@
   "868hmrdgw": {
     "status": "ready for deployment",
     "since": "2026-02-25T18:43:53.124Z"
+  },
+  "868hmn350": {
+    "status": "complete",
+    "since": "2026-02-26T17:40:26.568Z"
   }
 }
