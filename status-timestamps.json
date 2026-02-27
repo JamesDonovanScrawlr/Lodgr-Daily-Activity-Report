@@ -154,9 +154,9 @@
     "previousStatus": "ready for deployment"
   },
   "868hfx1q6": {
-    "status": "in review",
-    "since": "2026-02-26T17:40:29.768Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-02-27T17:41:26.583Z",
+    "previousStatus": "in review"
   },
   "868hfx03b": {
     "status": "complete",
@@ -200,9 +200,9 @@
     "since": "2026-02-24T17:54:40.840Z"
   },
   "868he5jk7": {
-    "status": "in qa",
-    "since": "2026-02-25T17:54:55.686Z",
-    "previousStatus": "in progress"
+    "status": "ready for deployment",
+    "since": "2026-02-27T17:41:26.584Z",
+    "previousStatus": "in qa"
   },
   "868hevmc4": {
     "status": "to do",
@@ -237,8 +237,9 @@
     "previousStatus": "in review"
   },
   "868h0xz8b": {
-    "status": "in qa",
-    "since": "2026-02-24T17:54:40.844Z"
+    "status": "ready for deployment",
+    "since": "2026-02-27T17:41:26.588Z",
+    "previousStatus": "in qa"
   },
   "868h7cefr": {
     "status": "complete",
@@ -271,12 +272,14 @@
     "since": "2026-02-25T17:54:55.685Z"
   },
   "868hkhzkq": {
-    "status": "in qa",
-    "since": "2026-02-25T17:54:55.689Z"
+    "status": "not approved",
+    "since": "2026-02-27T17:41:26.587Z",
+    "previousStatus": "in qa"
   },
   "868hkhz4x": {
-    "status": "in qa",
-    "since": "2026-02-25T17:54:55.690Z"
+    "status": "not approved",
+    "since": "2026-02-27T17:41:26.588Z",
+    "previousStatus": "in qa"
   },
   "868hmrdgw": {
     "status": "ready for deployment",
@@ -285,5 +288,25 @@
   "868hmn350": {
     "status": "complete",
     "since": "2026-02-26T17:40:26.568Z"
+  },
+  "868hndxa6": {
+    "status": "in review",
+    "since": "2026-02-27T17:41:23.384Z"
+  },
+  "868hng5v5": {
+    "status": "ready for deployment",
+    "since": "2026-02-27T17:41:26.582Z"
+  },
+  "868hnea97": {
+    "status": "in progress",
+    "since": "2026-02-27T17:41:26.582Z"
+  },
+  "868hfx1ug": {
+    "status": "in progress",
+    "since": "2026-02-27T17:41:26.582Z"
+  },
+  "868hf4v68": {
+    "status": "in progress",
+    "since": "2026-02-27T17:41:26.584Z"
   }
 }
