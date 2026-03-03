@@ -194,8 +194,9 @@
     "since": "2026-02-24T17:54:40.840Z"
   },
   "868hjgu0f": {
-    "status": "in planning",
-    "since": "2026-02-24T17:54:40.840Z"
+    "status": "ready for deployment",
+    "since": "2026-03-03T18:29:39.644Z",
+    "previousStatus": "in planning"
   },
   "868hem8n9": {
     "status": "in planning",
