@@ -131,9 +131,9 @@
     "previousStatus": "in planning"
   },
   "868hfapfz": {
-    "status": "in review",
-    "since": "2026-03-06T18:24:57.182Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-09T18:33:11.123Z",
+    "previousStatus": "in review"
   },
   "868hfap9v": {
     "status": "ready for deployment",
@@ -360,9 +360,9 @@
     "previousStatus": "in review"
   },
   "868hfx235": {
-    "status": "in review",
-    "since": "2026-03-06T18:24:57.183Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-09T18:33:11.124Z",
+    "previousStatus": "in review"
   },
   "868hpuhex": {
     "status": "to do",
@@ -397,19 +397,19 @@
     "since": "2026-03-04T18:28:31.239Z"
   },
   "868hfx24j": {
-    "status": "in review",
-    "since": "2026-03-06T18:24:57.183Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-09T18:33:11.124Z",
+    "previousStatus": "in review"
   },
   "868hfx21y": {
-    "status": "in review",
-    "since": "2026-03-06T18:24:57.183Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-09T18:33:11.124Z",
+    "previousStatus": "in review"
   },
   "868hfx208": {
-    "status": "in review",
-    "since": "2026-03-06T18:24:57.183Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-09T18:33:11.125Z",
+    "previousStatus": "in review"
   },
   "868hqm0fx": {
     "status": "ready for deployment",
@@ -476,8 +476,9 @@
     "since": "2026-03-06T18:24:55.267Z"
   },
   "868hg83g4": {
-    "status": "in review",
-    "since": "2026-03-06T18:24:57.183Z"
+    "status": "in qa",
+    "since": "2026-03-09T18:33:11.124Z",
+    "previousStatus": "in review"
   },
   "868hf51xf": {
     "status": "in review",
