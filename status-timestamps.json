@@ -731,14 +731,14 @@
     "since": "2026-03-18T18:39:10.744Z"
   },
   "868hvuzpp": {
-    "status": "in review",
-    "since": "2026-03-19T18:35:43.227Z",
-    "previousStatus": "in progress"
+    "status": "ready for deployment",
+    "since": "2026-03-23T18:34:40.505Z",
+    "previousStatus": "in review"
   },
   "868hqfmrc": {
-    "status": "in qa",
-    "since": "2026-03-19T18:35:43.901Z",
-    "previousStatus": "in review"
+    "status": "ready for deployment",
+    "since": "2026-03-23T18:34:40.728Z",
+    "previousStatus": "in qa"
   },
   "868hjw1bn": {
     "status": "complete",
@@ -757,8 +757,9 @@
     "since": "2026-03-19T18:35:47.142Z"
   },
   "868hycjrk": {
-    "status": "to do",
-    "since": "2026-03-19T18:35:47.142Z"
+    "status": "in planning",
+    "since": "2026-03-23T18:34:43.751Z",
+    "previousStatus": "to do"
   },
   "868hycjm0": {
     "status": "in progress",
@@ -766,19 +767,19 @@
     "previousStatus": "to do"
   },
   "868hycjdh": {
-    "status": "in review",
-    "since": "2026-03-20T18:26:11.525Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-23T18:34:43.752Z",
+    "previousStatus": "in review"
   },
   "868hycn1x": {
-    "status": "in review",
-    "since": "2026-03-20T18:26:11.525Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-23T18:34:43.752Z",
+    "previousStatus": "in review"
   },
   "868hycmwb": {
-    "status": "in review",
-    "since": "2026-03-20T18:26:11.525Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-03-23T18:34:43.752Z",
+    "previousStatus": "in review"
   },
   "868hybckv": {
     "status": "in planning",
@@ -793,11 +794,16 @@
     "since": "2026-03-20T18:26:11.525Z"
   },
   "868hycn5n": {
-    "status": "in review",
-    "since": "2026-03-20T18:26:11.525Z"
+    "status": "in qa",
+    "since": "2026-03-23T18:34:43.752Z",
+    "previousStatus": "in review"
   },
   "868hymqcg": {
     "status": "ideation",
     "since": "2026-03-20T18:26:11.526Z"
+  },
+  "868hw6qbz": {
+    "status": "in progress",
+    "since": "2026-03-23T18:34:43.753Z"
   }
 }
