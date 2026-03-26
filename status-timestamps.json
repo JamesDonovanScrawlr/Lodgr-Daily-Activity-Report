@@ -811,9 +811,9 @@
     "previousStatus": "in review"
   },
   "868hzu23z": {
-    "status": "in review",
-    "since": "2026-03-25T18:37:19.976Z",
-    "previousStatus": "in progress"
+    "status": "complete",
+    "since": "2026-03-26T18:42:03.868Z",
+    "previousStatus": "in review"
   },
   "868hzqk69": {
     "status": "in progress",
@@ -839,9 +839,9 @@
     "previousStatus": "to do"
   },
   "868j02b43": {
-    "status": "in planning",
-    "since": "2026-03-25T18:37:22.545Z",
-    "previousStatus": "to do"
+    "status": "selected for development",
+    "since": "2026-03-26T18:42:06.502Z",
+    "previousStatus": "in planning"
   },
   "868j02acd": {
     "status": "in planning",
@@ -872,5 +872,13 @@
   "868hw6r4t": {
     "status": "in progress",
     "since": "2026-03-25T18:37:22.547Z"
+  },
+  "868j0dync": {
+    "status": "complete",
+    "since": "2026-03-26T18:42:03.471Z"
+  },
+  "868hmz6m9": {
+    "status": "abandoned",
+    "since": "2026-03-26T18:42:04.543Z"
   }
 }
