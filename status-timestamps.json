@@ -674,12 +674,14 @@
     "previousStatus": "ready for deployment"
   },
   "868hw7rt9": {
-    "status": "to do",
-    "since": "2026-03-16T18:40:40.618Z"
+    "status": "ready for deployment",
+    "since": "2026-03-27T18:38:04.852Z",
+    "previousStatus": "to do"
   },
   "868hw7rk6": {
-    "status": "to do",
-    "since": "2026-03-16T18:40:40.618Z"
+    "status": "in planning",
+    "since": "2026-03-27T18:38:04.852Z",
+    "previousStatus": "to do"
   },
   "868hxe3mt": {
     "status": "ideation",
@@ -719,8 +721,9 @@
     "since": "2026-03-17T18:39:46.857Z"
   },
   "868hwzxrq": {
-    "status": "in planning",
-    "since": "2026-03-17T18:39:46.857Z"
+    "status": "in progress",
+    "since": "2026-03-27T18:38:04.851Z",
+    "previousStatus": "in planning"
   },
   "868hwzwkn": {
     "status": "in progress",
@@ -784,8 +787,9 @@
     "previousStatus": "in review"
   },
   "868hybckv": {
-    "status": "in planning",
-    "since": "2026-03-19T18:35:47.144Z"
+    "status": "in progress",
+    "since": "2026-03-27T18:38:04.851Z",
+    "previousStatus": "in planning"
   },
   "868hy1wuc": {
     "status": "to do",
@@ -849,9 +853,9 @@
     "previousStatus": "to do"
   },
   "868hw6qjf": {
-    "status": "in review",
-    "since": "2026-03-25T18:37:22.547Z",
-    "previousStatus": "in progress"
+    "status": "ready for deployment",
+    "since": "2026-03-27T18:38:04.851Z",
+    "previousStatus": "in review"
   },
   "868hztyjh": {
     "status": "complete",
@@ -866,12 +870,14 @@
     "since": "2026-03-25T18:37:19.199Z"
   },
   "868hzqker": {
-    "status": "in progress",
-    "since": "2026-03-25T18:37:22.545Z"
+    "status": "in review",
+    "since": "2026-03-27T18:38:04.849Z",
+    "previousStatus": "in progress"
   },
   "868hw6r4t": {
-    "status": "in progress",
-    "since": "2026-03-25T18:37:22.547Z"
+    "status": "in review",
+    "since": "2026-03-27T18:38:04.851Z",
+    "previousStatus": "in progress"
   },
   "868j0dync": {
     "status": "complete",
@@ -880,5 +886,25 @@
   "868hmz6m9": {
     "status": "abandoned",
     "since": "2026-03-26T18:42:04.543Z"
+  },
+  "868j1kqz2": {
+    "status": "in qa",
+    "since": "2026-03-27T18:38:01.727Z"
+  },
+  "868hzqkjf": {
+    "status": "in progress",
+    "since": "2026-03-27T18:38:04.849Z"
+  },
+  "868hzqkga": {
+    "status": "in progress",
+    "since": "2026-03-27T18:38:04.849Z"
+  },
+  "868hy1uh0": {
+    "status": "in progress",
+    "since": "2026-03-27T18:38:04.851Z"
+  },
+  "868hw6rkw": {
+    "status": "in progress",
+    "since": "2026-03-27T18:38:04.851Z"
   }
 }
