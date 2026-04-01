@@ -769,9 +769,9 @@
     "previousStatus": "in review"
   },
   "868hycjm0": {
-    "status": "in qa",
-    "since": "2026-03-25T18:37:22.544Z",
-    "previousStatus": "in review"
+    "status": "ready for deployment",
+    "since": "2026-04-01T18:40:44.276Z",
+    "previousStatus": "in qa"
   },
   "868hycjdh": {
     "status": "ready for deployment",
@@ -798,9 +798,9 @@
     "since": "2026-03-19T18:35:47.144Z"
   },
   "868hycp0q": {
-    "status": "in qa",
-    "since": "2026-03-25T18:37:22.545Z",
-    "previousStatus": "in review"
+    "status": "ready for deployment",
+    "since": "2026-04-01T18:40:44.277Z",
+    "previousStatus": "in qa"
   },
   "868hycn5n": {
     "status": "ready for deployment",
@@ -837,9 +837,9 @@
     "previousStatus": "in review"
   },
   "868hycp3a": {
-    "status": "in qa",
-    "since": "2026-03-25T18:37:22.545Z",
-    "previousStatus": "in review"
+    "status": "ready for deployment",
+    "since": "2026-04-01T18:40:44.277Z",
+    "previousStatus": "in qa"
   },
   "868j02gzy": {
     "status": "in planning",
@@ -912,9 +912,9 @@
     "previousStatus": "in progress"
   },
   "868hw6rkw": {
-    "status": "in review",
-    "since": "2026-03-31T18:40:30.999Z",
-    "previousStatus": "in progress"
+    "status": "ready for deployment",
+    "since": "2026-04-01T18:40:44.280Z",
+    "previousStatus": "in review"
   },
   "868j1uftw": {
     "status": "ideation",
@@ -933,31 +933,39 @@
     "since": "2026-03-31T18:40:30.998Z"
   },
   "868j02gf2": {
-    "status": "in review",
-    "since": "2026-03-31T18:40:30.998Z"
+    "status": "ready for deployment",
+    "since": "2026-04-01T18:40:44.278Z",
+    "previousStatus": "in review"
   },
   "868hywdy6": {
     "status": "in review",
     "since": "2026-03-31T18:40:30.998Z"
   },
   "868hywb10": {
-    "status": "in review",
-    "since": "2026-03-31T18:40:30.998Z"
+    "status": "ready for deployment",
+    "since": "2026-04-01T18:40:44.279Z",
+    "previousStatus": "in review"
   },
   "868j2qmz6": {
     "status": "to do",
     "since": "2026-03-31T18:40:30.998Z"
   },
   "868hyg7k7": {
-    "status": "in progress",
-    "since": "2026-03-31T18:40:30.999Z"
+    "status": "in review",
+    "since": "2026-04-01T18:40:44.279Z",
+    "previousStatus": "in progress"
   },
   "868hxwj95": {
     "status": "in progress",
     "since": "2026-03-31T18:40:30.999Z"
   },
   "868hw6tm4": {
-    "status": "in progress",
-    "since": "2026-03-31T18:40:30.999Z"
+    "status": "in review",
+    "since": "2026-04-01T18:40:44.280Z",
+    "previousStatus": "in progress"
+  },
+  "868j33wyw": {
+    "status": "in planning",
+    "since": "2026-04-01T18:40:44.279Z"
   }
 }
