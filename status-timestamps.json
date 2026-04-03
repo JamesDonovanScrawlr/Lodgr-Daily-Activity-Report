@@ -975,8 +975,9 @@
     "since": "2026-04-01T18:40:44.279Z"
   },
   "868j32g5a": {
-    "status": "in review",
-    "since": "2026-04-02T18:37:03.939Z"
+    "status": "in qa",
+    "since": "2026-04-03T18:26:01.162Z",
+    "previousStatus": "in review"
   },
   "868j3zvqv": {
     "status": "to do",
@@ -987,12 +988,14 @@
     "since": "2026-04-02T18:37:07.215Z"
   },
   "868j3zug8": {
-    "status": "in planning",
-    "since": "2026-04-02T18:37:07.215Z"
+    "status": "in progress",
+    "since": "2026-04-03T18:26:04.463Z",
+    "previousStatus": "in planning"
   },
   "868j2gmku": {
-    "status": "in progress",
-    "since": "2026-04-02T18:37:07.217Z"
+    "status": "in review",
+    "since": "2026-04-03T18:26:04.464Z",
+    "previousStatus": "in progress"
   },
   "868j2gmj1": {
     "status": "in review",
@@ -1003,8 +1006,9 @@
     "since": "2026-04-02T18:37:07.217Z"
   },
   "868hywe2c": {
-    "status": "in progress",
-    "since": "2026-04-02T18:37:07.217Z"
+    "status": "in review",
+    "since": "2026-04-03T18:26:04.464Z",
+    "previousStatus": "in progress"
   },
   "868j340q4": {
     "status": "ready for deployment",
@@ -1017,5 +1021,17 @@
   "868hw6u03": {
     "status": "in progress",
     "since": "2026-04-02T18:37:07.219Z"
+  },
+  "868j3zvth": {
+    "status": "in progress",
+    "since": "2026-04-03T18:26:04.463Z"
+  },
+  "868j02a2q": {
+    "status": "in progress",
+    "since": "2026-04-03T18:26:04.464Z"
+  },
+  "868hw6u1a": {
+    "status": "in progress",
+    "since": "2026-04-03T18:26:04.466Z"
   }
 }
