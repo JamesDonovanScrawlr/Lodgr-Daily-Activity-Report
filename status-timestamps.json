@@ -719,14 +719,14 @@
     "previousStatus": "in review"
   },
   "868hwzyh4": {
-    "status": "in review",
-    "since": "2026-04-20T18:43:51.315Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-04-22T18:48:41.921Z",
+    "previousStatus": "in review"
   },
   "868hwzxrq": {
-    "status": "in progress",
-    "since": "2026-03-27T18:38:04.851Z",
-    "previousStatus": "in planning"
+    "status": "in review",
+    "since": "2026-04-22T18:48:41.921Z",
+    "previousStatus": "in progress"
   },
   "868hwzwkn": {
     "status": "in qa",
@@ -1249,13 +1249,14 @@
     "since": "2026-04-13T18:53:28.157Z"
   },
   "868j67unh": {
-    "status": "in review",
-    "since": "2026-04-14T18:49:54.022Z",
-    "previousStatus": "in progress"
+    "status": "ready for deployment",
+    "since": "2026-04-22T18:48:41.922Z",
+    "previousStatus": "in review"
   },
   "868hw6tc2": {
-    "status": "in review",
-    "since": "2026-04-13T18:53:28.158Z"
+    "status": "ready for deployment",
+    "since": "2026-04-22T18:48:41.923Z",
+    "previousStatus": "in review"
   },
   "868j7par2": {
     "status": "complete",
@@ -1294,9 +1295,9 @@
     "previousStatus": "in review"
   },
   "868hxwpc1": {
-    "status": "in review",
-    "since": "2026-04-20T18:43:51.315Z",
-    "previousStatus": "in progress"
+    "status": "in qa",
+    "since": "2026-04-22T18:48:41.922Z",
+    "previousStatus": "in review"
   },
   "868hxwnvq": {
     "status": "in qa",
@@ -1326,8 +1327,9 @@
     "since": "2026-04-16T18:50:10.716Z"
   },
   "868hxwjzk": {
-    "status": "in progress",
-    "since": "2026-04-16T18:50:10.716Z"
+    "status": "in review",
+    "since": "2026-04-22T18:48:41.923Z",
+    "previousStatus": "in progress"
   },
   "868j6qpf3": {
     "status": "in progress",
@@ -1346,15 +1348,17 @@
     "since": "2026-04-16T18:50:10.719Z"
   },
   "868hw6rt3": {
-    "status": "in review",
-    "since": "2026-04-17T18:37:49.720Z"
+    "status": "ready for deployment",
+    "since": "2026-04-22T18:48:41.923Z",
+    "previousStatus": "in review"
   },
   "868jabvvk": {
     "status": "ready for deployment",
     "since": "2026-04-20T18:43:51.315Z"
   },
   "868hy1vux": {
-    "status": "in progress",
-    "since": "2026-04-21T18:47:38.628Z"
+    "status": "in review",
+    "since": "2026-04-22T18:48:41.922Z",
+    "previousStatus": "in progress"
   }
 }
