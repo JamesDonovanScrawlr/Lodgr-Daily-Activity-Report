@@ -1425,12 +1425,16 @@
     "since": "2026-04-28T19:12:25.532Z"
   },
   "868j3zwgp": {
-    "status": "in qa",
-    "since": "2026-04-29T19:01:12.711Z",
-    "previousStatus": "in progress"
+    "status": "complete",
+    "since": "2026-05-01T18:48:17.141Z",
+    "previousStatus": "in qa"
   },
   "868jecvc9": {
     "status": "complete",
     "since": "2026-04-29T19:01:08.585Z"
+  },
+  "868hh9w2c": {
+    "status": "ready for deployment",
+    "since": "2026-05-01T18:48:12.704Z"
   }
 }
