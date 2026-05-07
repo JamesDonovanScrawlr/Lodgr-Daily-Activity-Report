@@ -675,14 +675,14 @@
     "previousStatus": "ready for deployment"
   },
   "868hw7rt9": {
-    "status": "ready for deployment",
-    "since": "2026-03-27T18:38:04.852Z",
-    "previousStatus": "to do"
+    "status": "complete",
+    "since": "2026-05-07T19:19:56.164Z",
+    "previousStatus": "ready for deployment"
   },
   "868hw7rk6": {
-    "status": "ready for deployment",
-    "since": "2026-04-02T18:37:07.220Z",
-    "previousStatus": "in planning"
+    "status": "complete",
+    "since": "2026-05-07T19:19:56.165Z",
+    "previousStatus": "ready for deployment"
   },
   "868hxe3mt": {
     "status": "ideation",
@@ -1412,8 +1412,9 @@
     "since": "2026-04-24T18:32:46.837Z"
   },
   "868j4176a": {
-    "status": "ready for deployment",
-    "since": "2026-04-24T18:32:46.838Z"
+    "status": "complete",
+    "since": "2026-05-07T19:19:56.165Z",
+    "previousStatus": "ready for deployment"
   },
   "868j2bp5u": {
     "status": "complete",
@@ -1481,5 +1482,9 @@
   "868jecthv": {
     "status": "ready for deployment",
     "since": "2026-05-05T18:58:29.086Z"
+  },
+  "868jh29y7": {
+    "status": "in progress",
+    "since": "2026-05-07T19:19:56.167Z"
   }
 }
