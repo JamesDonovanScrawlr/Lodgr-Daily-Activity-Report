@@ -1488,7 +1488,20 @@
     "since": "2026-05-07T19:19:56.167Z"
   },
   "868jfykrt": {
-    "status": "in progress",
-    "since": "2026-05-11T19:20:42.920Z"
+    "status": "ready for deployment",
+    "since": "2026-05-12T19:24:17.580Z",
+    "previousStatus": "in progress"
+  },
+  "868jj47vc": {
+    "status": "in planning",
+    "since": "2026-05-12T19:24:18.173Z"
+  },
+  "868jcwvn0": {
+    "status": "in planning",
+    "since": "2026-05-12T19:24:19.438Z"
+  },
+  "868jgnrj1": {
+    "status": "in qa",
+    "since": "2026-05-12T19:24:22.112Z"
   }
 }
