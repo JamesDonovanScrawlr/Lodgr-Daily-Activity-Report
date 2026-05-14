@@ -1493,16 +1493,25 @@
     "previousStatus": "in progress"
   },
   "868jj47vc": {
-    "status": "in planning",
-    "since": "2026-05-12T19:24:18.173Z"
+    "status": "in progress",
+    "since": "2026-05-14T19:23:47.287Z",
+    "previousStatus": "in planning"
   },
   "868jcwvn0": {
-    "status": "in progress",
-    "since": "2026-05-13T19:25:58.662Z",
-    "previousStatus": "in planning"
+    "status": "in review",
+    "since": "2026-05-14T19:23:49.153Z",
+    "previousStatus": "in progress"
   },
   "868jgnrj1": {
     "status": "in qa",
     "since": "2026-05-12T19:24:22.112Z"
+  },
+  "868hfmanj": {
+    "status": "in progress",
+    "since": "2026-05-14T19:23:52.970Z"
+  },
+  "868jmnb4t": {
+    "status": "in progress",
+    "since": "2026-05-14T19:23:55.031Z"
   }
 }
