@@ -1489,24 +1489,24 @@
     "previousStatus": "in progress"
   },
   "868jfykrt": {
-    "status": "ready for deployment",
-    "since": "2026-05-12T19:24:17.580Z",
-    "previousStatus": "in progress"
+    "status": "complete",
+    "since": "2026-05-20T19:55:51.434Z",
+    "previousStatus": "ready for deployment"
   },
   "868jj47vc": {
-    "status": "in progress",
-    "since": "2026-05-14T19:23:47.287Z",
-    "previousStatus": "in planning"
-  },
-  "868jcwvn0": {
     "status": "in review",
-    "since": "2026-05-14T19:23:49.153Z",
+    "since": "2026-05-20T19:55:53.624Z",
     "previousStatus": "in progress"
   },
+  "868jcwvn0": {
+    "status": "in qa",
+    "since": "2026-05-20T19:55:54.946Z",
+    "previousStatus": "in review"
+  },
   "868jgnrj1": {
-    "status": "ready for deployment",
-    "since": "2026-05-19T19:30:01.651Z",
-    "previousStatus": "in qa"
+    "status": "complete",
+    "since": "2026-05-20T19:55:52.342Z",
+    "previousStatus": "ready for deployment"
   },
   "868hfmanj": {
     "status": "in progress",
@@ -1531,5 +1531,13 @@
   "868jn85qb": {
     "status": "in progress",
     "since": "2026-05-18T19:17:19.985Z"
+  },
+  "868j5e5vy": {
+    "status": "complete",
+    "since": "2026-05-20T19:55:51.766Z"
+  },
+  "868jmt1du": {
+    "status": "in progress",
+    "since": "2026-05-20T19:55:52.980Z"
   }
 }
