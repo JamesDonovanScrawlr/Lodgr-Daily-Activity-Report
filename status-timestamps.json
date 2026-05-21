@@ -1499,9 +1499,9 @@
     "previousStatus": "in progress"
   },
   "868jcwvn0": {
-    "status": "in qa",
-    "since": "2026-05-20T19:55:54.946Z",
-    "previousStatus": "in review"
+    "status": "ready for deployment",
+    "since": "2026-05-21T19:30:06.845Z",
+    "previousStatus": "in qa"
   },
   "868jgnrj1": {
     "status": "complete",
@@ -1537,7 +1537,16 @@
     "since": "2026-05-20T19:55:51.766Z"
   },
   "868jmt1du": {
-    "status": "in progress",
-    "since": "2026-05-20T19:55:52.980Z"
+    "status": "in review",
+    "since": "2026-05-21T19:30:08.123Z",
+    "previousStatus": "in progress"
+  },
+  "868jmku2e": {
+    "status": "ready for deployment",
+    "since": "2026-05-21T19:30:07.390Z"
+  },
+  "868jdrg46": {
+    "status": "in planning",
+    "since": "2026-05-21T19:30:09.577Z"
   }
 }
